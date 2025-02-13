@@ -1,0 +1,6 @@
+{
+    "github.gitAuthentication": true,
+    "github.gitProtocol": "https",
+    "github.customPullRequestTitle": true,
+    "github.enableExperimentalFeatures": false
+}
