@@ -1,6 +1,6 @@
 .reaction-form {
   background: white;
-  padding: 1rem;
+  padding: 0.8rem;
   border-radius: 6px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   max-width: 600px;
@@ -17,14 +17,14 @@
 }
 
 .form-group {
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.2rem;
   color: #666;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 400;
 }
 
@@ -42,11 +42,10 @@ input[type="date"],
 input[type="time"],
 textarea {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.4rem;
   border: 1px solid #d0d0d0;
   border-radius: 4px;
-  font-size: 0.9rem;
-  transition: border-color 0.2s ease;
+  font-size: 0.8rem;
 }
 
 input[type="text"]:focus,
@@ -60,9 +59,10 @@ textarea:focus {
 
 .symptoms-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 0.3rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
   margin-top: 0.3rem;
+  width: 100%;
 }
 
 .symptom-checkbox {
@@ -86,8 +86,8 @@ textarea:focus {
 }
 
 textarea {
-  resize: vertical;
-  min-height: 80px;
+  resize: none;
+  height: 50px;
 }
 
 .submit-button {
