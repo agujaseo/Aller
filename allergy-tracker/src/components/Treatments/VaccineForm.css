@@ -6,6 +6,7 @@
   max-width: 600px;
   width: 100%;
   border: 1px solid #e0e0e0;
+  box-sizing: border-box;
 }
 
 .vaccine-form h2 {
@@ -41,12 +42,15 @@ input[type="text"],
 input[type="date"],
 input[type="time"],
 textarea {
-  width: 100%;
+  width: calc(80% - 50px);
+  margin-left: 25px;
+  margin-right: 25px;
   padding: 0.5rem;
   border: 1px solid #d0d0d0;
   border-radius: 4px;
   font-size: 0.9rem;
   transition: border-color 0.2s ease;
+  box-sizing: border-box;
 }
 
 input[type="text"]:focus,

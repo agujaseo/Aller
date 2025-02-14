@@ -10,8 +10,6 @@ const VaccineForm = ({ userId }) => {
     type: '',
     concentration: '',
     dose: '',
-    batchNumber: '',
-    nextAppointment: '',
     reactions: '',
     notes: '',
   });
@@ -42,8 +40,6 @@ const VaccineForm = ({ userId }) => {
         type: '',
         concentration: '',
         dose: '',
-        batchNumber: '',
-        nextAppointment: '',
         reactions: '',
         notes: '',
       });
@@ -114,26 +110,6 @@ const VaccineForm = ({ userId }) => {
         />
       </div>
 
-      <div className="form-group">
-        <label>Número de Lote</label>
-        <input
-          type="text"
-          name="batchNumber"
-          value={formData.batchNumber}
-          onChange={handleChange}
-          placeholder="Número de lote de la vacuna"
-        />
-      </div>
-
-      <div className="form-group">
-        <label>Próxima Cita</label>
-        <input
-          type="date"
-          name="nextAppointment"
-          value={formData.nextAppointment}
-          onChange={handleChange}
-        />
-      </div>
 
       <div className="form-group">
         <label>Reacciones</label>

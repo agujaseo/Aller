@@ -6,6 +6,7 @@
   max-width: 600px;
   width: 100%;
   border: 1px solid #e0e0e0;
+  box-sizing: border-box;
 }
 
 .reaction-form h2 {
@@ -44,13 +45,14 @@ input[type="text"],
 input[type="date"],
 input[type="time"],
 textarea {
-  width: calc(100% - 50px);
+  width: calc(80% - 50px);
+  margin-left: 25px;
+  margin-right: 25px;
   padding: 0.4rem;
   border: 1px solid #d0d0d0;
   border-radius: 4px;
   font-size: 0.8rem;
-  margin-left: 25px;
-  margin-right: 25px;
+  box-sizing: border-box;
 }
 
 input[type="text"]:focus,
@@ -79,7 +81,7 @@ textarea:focus {
 }
 
 .severity-slider {
-  width: 100%;
+  width: 80%;
   margin: 0.5rem 0;
 }
 
@@ -92,6 +94,7 @@ textarea:focus {
 
 textarea {
   resize: none;
+  width: 80%;
   height: 50px;
 }
 
@@ -118,9 +121,9 @@ input[type="range"] {
   border-radius: 2px;
   background: #e0e0e0;
   outline: none;
+  width: 80%;
   margin-left: 25px;
   margin-right: 25px;
-  width: calc(100% - 50px);
 }
 
 input[type="range"]::-webkit-slider-thumb {
