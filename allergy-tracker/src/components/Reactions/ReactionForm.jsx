@@ -9,11 +9,8 @@ const ReactionForm = ({ userId }) => {
     time: new Date().toTimeString().split(' ')[0].slice(0, 5),
     symptoms: [],
     severity: '1',
-    trigger: '',
-    location: '',
     notes: '',
     medication: '',
-    duration: '',
   });
 
   const symptoms = [
@@ -67,11 +64,8 @@ const ReactionForm = ({ userId }) => {
         time: new Date().toTimeString().split(' ')[0].slice(0, 5),
         symptoms: [],
         severity: '1',
-        trigger: '',
-        location: '',
         notes: '',
         medication: '',
-        duration: '',
       });
 
       alert('Reacción registrada con éxito');
@@ -142,28 +136,6 @@ const ReactionForm = ({ userId }) => {
       </div>
 
       <div className="form-group">
-        <label>Posible Desencadenante</label>
-        <input
-          type="text"
-          name="trigger"
-          value={formData.trigger}
-          onChange={handleChange}
-          placeholder="¿Qué pudo causar la reacción?"
-        />
-      </div>
-
-      <div className="form-group">
-        <label>Ubicación</label>
-        <input
-          type="text"
-          name="location"
-          value={formData.location}
-          onChange={handleChange}
-          placeholder="¿Dónde ocurrió?"
-        />
-      </div>
-
-      <div className="form-group">
         <label>Medicación Tomada</label>
         <input
           type="text"
@@ -171,17 +143,6 @@ const ReactionForm = ({ userId }) => {
           value={formData.medication}
           onChange={handleChange}
           placeholder="Medicamentos utilizados"
-        />
-      </div>
-
-      <div className="form-group">
-        <label>Duración</label>
-        <input
-          type="text"
-          name="duration"
-          value={formData.duration}
-          onChange={handleChange}
-          placeholder="¿Cuánto duró la reacción?"
         />
       </div>
 

@@ -3,9 +3,9 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light;
+  color: #333333;
+  background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -35,11 +35,11 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 1rem;
-  background-color: #333;
+  background-color: #f0f0f0;
 }
 
 .main-nav a {
-  color: white;
+  color: #333333;
   text-decoration: none;
   margin: 0 10px;
 }
@@ -68,25 +68,32 @@ body {
   border-radius: 8px;
   padding: 2rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .form-group {
   margin-bottom: 1rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.form-group input {
+.form-group input, .form-group select {
   width: 100%;
   padding: 0.5rem;
   background-color: #444;
   border: 1px solid #555;
   color: white;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 button {
