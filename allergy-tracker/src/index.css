@@ -25,6 +25,11 @@ body {
   width: 100%;
 }
 
+/* Estilos adicionales para iconos */
+.legend-icon, .event-icon {
+  vertical-align: middle;
+}
+
 .main-layout {
   display: flex;
   flex-direction: column;

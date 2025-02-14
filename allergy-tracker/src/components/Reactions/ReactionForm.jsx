@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { useReactions } from '../../contexts/ReactionsContext';
 import './ReactionForm.css';
 
 const ReactionForm = ({ userId }) => {
+  const { triggerCalendarRefresh } = useReactions();
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
     time: new Date().toTimeString().split(' ')[0].slice(0, 5),
@@ -56,7 +58,12 @@ const ReactionForm = ({ userId }) => {
         createdAt: new Date(),
       };
 
+      console.log('Guardando reacción:', reactionData);
+
       await addDoc(collection(db, 'reactions'), reactionData);
+      
+      // Notificar al calendario que debe actualizarse
+      triggerCalendarRefresh();
       
       // Resetear el formulario
       setFormData({

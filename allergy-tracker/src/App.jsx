@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { ReactionsProvider } from './contexts/ReactionsContext';
 import PrivateRoute from './components/Auth/PrivateRoute';
 import MainLayout from './components/Layout/MainLayout';
 
@@ -17,8 +18,9 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <MainLayout>
-          <Routes>
+        <ReactionsProvider>
+          <MainLayout>
+            <Routes>
             {/* Authentication Routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
@@ -56,7 +58,8 @@ function App() {
             />
           </Routes>
         </MainLayout>
-      </AuthProvider>
+      </ReactionsProvider>
+    </AuthProvider>
     </Router>
   );
 }

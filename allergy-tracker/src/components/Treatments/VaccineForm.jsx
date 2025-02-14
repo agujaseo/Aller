@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../config/firebase';
+import { useReactions } from '../../contexts/ReactionsContext';
 import './VaccineForm.css';
 
 const VaccineForm = ({ userId }) => {
+  const { triggerCalendarRefresh } = useReactions();
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
     time: new Date().toTimeString().split(' ')[0].slice(0, 5),
@@ -32,7 +34,12 @@ const VaccineForm = ({ userId }) => {
         createdAt: new Date(),
       };
 
+      console.log('Guardando vacuna:', vaccineData);
+
       await addDoc(collection(db, 'vaccines'), vaccineData);
+      
+      // Notificar al calendario que debe actualizarse
+      triggerCalendarRefresh();
       
       setFormData({
         date: new Date().toISOString().split('T')[0],
