@@ -2,17 +2,20 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
+import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDRfqpZz5vMKjBjZwjqhbF0WHK0hXzMxnM",
-  authDomain: "allergy-tracker-9f9c5.firebaseapp.com",
-  projectId: "allergy-tracker-9f9c5",
-  storageBucket: "allergy-tracker-9f9c5.appspot.com",
-  messagingSenderId: "1093305670670",
-  appId: "1:1093305670670:web:3c9a4c1f3fa9d9c6c3b9c5"
+  apiKey: "AIzaSyB45sMZ5_OVV_jI7jaZmWZrWdfKKYtpFKo",
+  authDomain: "allertrack.firebaseapp.com",
+  projectId: "allertrack",
+  storageBucket: "allertrack.firebasestorage.app",
+  messagingSenderId: "29377535345",
+  appId: "1:29377535345:web:b6943e76e0a1c394f7aad0",
+  measurementId: "G-Y5ML2SEF8K"
 };
 
 const app = initializeApp(firebaseConfig);
+export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);

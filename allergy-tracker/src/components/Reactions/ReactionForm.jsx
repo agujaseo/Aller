@@ -1,145 +1,203 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { addReaction } from '../../services/reactionService';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../../config/firebase';
+import './ReactionForm.css';
 
-const ReactionForm = ({ onReactionAdded }) => {
-  const { currentUser } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [reactionData, setReactionData] = useState({
+const ReactionForm = ({ userId }) => {
+  const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
+    time: new Date().toTimeString().split(' ')[0].slice(0, 5),
     symptoms: [],
-    severity: 1,
-    triggers: [],
+    severity: '1',
+    trigger: '',
+    location: '',
     notes: '',
-    photos: []
+    medication: '',
+    duration: '',
   });
 
-  const handleSymptomAdd = () => {
-    const symptom = prompt('Enter symptom:');
-    if (symptom) {
-      setReactionData(prev => ({
+  const symptoms = [
+    'Picazón',
+    'Urticaria',
+    'Hinchazón',
+    'Dificultad para respirar',
+    'Estornudos',
+    'Congestión nasal',
+    'Ojos llorosos',
+    'Náuseas',
+    'Dolor abdominal',
+    'Mareos'
+  ];
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    
+    if (type === 'checkbox') {
+      const updatedSymptoms = checked
+        ? [...formData.symptoms, value]
+        : formData.symptoms.filter(symptom => symptom !== value);
+      
+      setFormData(prev => ({
         ...prev,
-        symptoms: [...prev.symptoms, symptom]
+        symptoms: updatedSymptoms
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
       }));
     }
-  };
-
-  const handleTriggerAdd = () => {
-    const trigger = prompt('Enter trigger:');
-    if (trigger) {
-      setReactionData(prev => ({
-        ...prev,
-        triggers: [...prev.triggers, trigger]
-      }));
-    }
-  };
-
-  const handlePhotoUpload = (event) => {
-    const files = Array.from(event.target.files);
-    setReactionData(prev => ({
-      ...prev,
-      photos: files
-    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-
     try {
-      const newReaction = await addReaction(currentUser.uid, reactionData);
+      const reactionData = {
+        ...formData,
+        date: new Date(formData.date + 'T' + formData.time),
+        userId,
+        createdAt: new Date(),
+      };
+
+      await addDoc(collection(db, 'reactions'), reactionData);
       
-      // Reset form
-      setReactionData({
+      // Resetear el formulario
+      setFormData({
         date: new Date().toISOString().split('T')[0],
+        time: new Date().toTimeString().split(' ')[0].slice(0, 5),
         symptoms: [],
-        severity: 1,
-        triggers: [],
+        severity: '1',
+        trigger: '',
+        location: '',
         notes: '',
-        photos: []
+        medication: '',
+        duration: '',
       });
 
-      if (onReactionAdded) {
-        onReactionAdded(newReaction);
-      }
+      alert('Reacción registrada con éxito');
     } catch (error) {
-      setError('Error saving reaction');
-      console.error('Error:', error);
-    } finally {
-      setLoading(false);
+      console.error('Error al guardar la reacción:', error);
+      alert('Error al guardar la reacción');
     }
   };
 
-  if (error) return <div className="error">{error}</div>;
-
   return (
     <form onSubmit={handleSubmit} className="reaction-form">
-      <h3>Record New Reaction</h3>
+      <h2>Registrar Nueva Reacción</h2>
       
-      <div>
-        <label>Date:</label>
-        <input
-          type="date"
-          value={reactionData.date}
-          onChange={(e) => setReactionData(prev => ({ ...prev, date: e.target.value }))}
-          required
-        />
+      <div className="form-group">
+        <label>Fecha y Hora</label>
+        <div className="datetime-group">
+          <input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="time"
+            name="time"
+            value={formData.time}
+            onChange={handleChange}
+            required
+          />
+        </div>
       </div>
 
-      <div>
-        <label>Severity (1-5):</label>
+      <div className="form-group">
+        <label>Síntomas</label>
+        <div className="symptoms-grid">
+          {symptoms.map(symptom => (
+            <label key={symptom} className="symptom-checkbox">
+              <input
+                type="checkbox"
+                name="symptoms"
+                value={symptom}
+                checked={formData.symptoms.includes(symptom)}
+                onChange={handleChange}
+              />
+              {symptom}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className="form-group">
+        <label>Severidad</label>
         <input
           type="range"
+          name="severity"
           min="1"
           max="5"
-          value={reactionData.severity}
-          onChange={(e) => setReactionData(prev => ({ ...prev, severity: parseInt(e.target.value) }))}
+          value={formData.severity}
+          onChange={handleChange}
+          className="severity-slider"
         />
-        <span>{reactionData.severity}</span>
+        <div className="severity-labels">
+          <span>Leve</span>
+          <span>Moderada</span>
+          <span>Severa</span>
+        </div>
       </div>
 
-      <div>
-        <label>Symptoms:</label>
-        <ul>
-          {reactionData.symptoms.map((symptom, index) => (
-            <li key={index}>{symptom}</li>
-          ))}
-        </ul>
-        <button type="button" onClick={handleSymptomAdd}>Add Symptom</button>
-      </div>
-
-      <div>
-        <label>Triggers:</label>
-        <ul>
-          {reactionData.triggers.map((trigger, index) => (
-            <li key={index}>{trigger}</li>
-          ))}
-        </ul>
-        <button type="button" onClick={handleTriggerAdd}>Add Trigger</button>
-      </div>
-
-      <div>
-        <label>Notes:</label>
-        <textarea
-          value={reactionData.notes}
-          onChange={(e) => setReactionData(prev => ({ ...prev, notes: e.target.value }))}
-        />
-      </div>
-
-      <div>
-        <label>Photos:</label>
+      <div className="form-group">
+        <label>Posible Desencadenante</label>
         <input
-          type="file"
-          multiple
-          accept="image/*"
-          onChange={handlePhotoUpload}
+          type="text"
+          name="trigger"
+          value={formData.trigger}
+          onChange={handleChange}
+          placeholder="¿Qué pudo causar la reacción?"
         />
       </div>
 
-      <button type="submit" disabled={loading}>
-        {loading ? 'Saving...' : 'Save Reaction'}
+      <div className="form-group">
+        <label>Ubicación</label>
+        <input
+          type="text"
+          name="location"
+          value={formData.location}
+          onChange={handleChange}
+          placeholder="¿Dónde ocurrió?"
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Medicación Tomada</label>
+        <input
+          type="text"
+          name="medication"
+          value={formData.medication}
+          onChange={handleChange}
+          placeholder="Medicamentos utilizados"
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Duración</label>
+        <input
+          type="text"
+          name="duration"
+          value={formData.duration}
+          onChange={handleChange}
+          placeholder="¿Cuánto duró la reacción?"
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Notas Adicionales</label>
+        <textarea
+          name="notes"
+          value={formData.notes}
+          onChange={handleChange}
+          placeholder="Observaciones adicionales..."
+          rows="4"
+        />
+      </div>
+
+      <button type="submit" className="submit-button">
+        Registrar Reacción
       </button>
     </form>
   );
